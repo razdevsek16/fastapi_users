@@ -1,5 +1,6 @@
 from fastapi import Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import text
 from app.database import get_db
 from app.user.models import Users
 from app.user.schemas import User as UserS
@@ -40,3 +41,9 @@ def deleteUser(id, db: Session = Depends(get_db)):
     user.delete(synchronize_session=False)
     db.commit()
     return "User has been deleted"
+
+def get_test(db: Session = Depends(get_db)):
+    users = db.execute(text('select * from users')).fetchall()
+    for row in users:
+        print(row)
+    return "ok"

@@ -32,3 +32,7 @@ def updateUser(id, request: User, db: Session = Depends(get_db)):
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def deleteUser(id, db: Session = Depends(get_db)):
     return repository.deleteUser(id, db)
+
+@router.get('test/')
+def test(db: Session = Depends(get_db)):
+    return repository.get_test(db)
