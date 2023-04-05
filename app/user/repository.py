@@ -43,7 +43,8 @@ def deleteUser(id, db: Session = Depends(get_db)):
     return "User has been deleted"
 
 def get_test(db: Session = Depends(get_db)):
-    users = db.execute(text('select * from users')).fetchall()
-    for row in users:
-        print(row)
+    print(dir(db))
+    # users = db.execute(text('select * from users')).fetchall()
+    # for row in users:
+    #     print(row)
     return "ok"

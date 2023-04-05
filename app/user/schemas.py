@@ -1,11 +1,7 @@
+from core.OurBaseModel import OurBaseModel
 
-from pydantic import BaseModel
-
-class User(BaseModel):
+class User(OurBaseModel):
     name : str
     username : str
     email : str
     password : str
-    class Config():
-        orm_mode = True
-        

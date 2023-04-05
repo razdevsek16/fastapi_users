@@ -1,10 +1,12 @@
 from typing import List
 from fastapi import APIRouter, Depends, status, Response, HTTPException
 from sqlalchemy.orm import Session
-from .schemas import User
 from app.database import get_db
-from . import repository
 from app.auth.oauth2 import get_current_user
+
+from .schemas import User
+from . import repository
+
 #from ..auth import oauth2
 
 router = APIRouter(
@@ -35,4 +37,5 @@ def deleteUser(id, db: Session = Depends(get_db)):
 
 @router.get('test/')
 def test(db: Session = Depends(get_db)):
-    return repository.get_test(db)
+    print(dir(db))
+    return repository.get_test()
