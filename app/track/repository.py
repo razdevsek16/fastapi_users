@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import text
 from app.database import get_db
 from .models import TrackM, TrackTypeM
-from .schemas import TrackTypeS
+from .schemas import TrackTypeS, TrackS
 from app.user.repository import getUserById
 
 
@@ -64,3 +64,16 @@ class TrackR:
         self.user = user
     
     
+    def createTrack(self, track: TrackS, db: Session = Depends(get_db)):
+        new_track = TrackM(start=track.start,
+                           end=track.end,
+                           userId=track.userId,
+                           trackType=track.trackTypeId,
+                           userIns=track.userIns,
+                           dateIns=track.dateIns,
+                           userUpd=track.userUpd,
+                           dateUpd=track.dateUpd)
+        db.add(new_track)
+        db.commit()
+        db.refresh(new_track)
+        return new_track
