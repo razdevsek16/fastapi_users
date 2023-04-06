@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import or_
 
 from app.database import get_db
-from app.user.models import Users
+from app.user.models import UserM
 from app.hashing import Hash
 from app.auth.token import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token
 
@@ -14,7 +14,7 @@ router = APIRouter(
 
 @router.post('/login')
 def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = db.query(Users).filter(or_(Users.email == request.username,Users.username == request.username)).first()
+    user = db.query(UserM).filter(or_(UserM.email == request.username,UserM.username == request.username)).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"No user with email {request.username}!")
