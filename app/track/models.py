@@ -5,7 +5,7 @@ class TrackM(Base):
     __tablename__ = 'track'
     id = Column(Integer, primary_key=True, index = True)    # primary key
     start = Column(DateTime)                                # start tracking
-    end = Column(DateTime)                                  # end tracking
+    end = Column(DateTime, nullable=True)                   # end tracking
     userId = Column(Integer)                                # userId
     trackType = Column(Integer)                             # tracking type (foreing key WorkType)
     userIns = Column(Integer)                                # User data inserted

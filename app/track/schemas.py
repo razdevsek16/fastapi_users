@@ -7,7 +7,7 @@ class TrackS(OurBaseModel):
     userId: int
     userName: Optional[str]
     start: datetime
-    end: datetime
+    end: Optional[datetime]
     trackTypeId: int
     trackType: Optional[str]
     userIns: int
