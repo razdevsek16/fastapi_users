@@ -1,4 +1,5 @@
 from fastapi import Depends, HTTPException, Response, status
+from sqlalchemy import update
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import text
 from app.database import get_db
@@ -34,7 +35,7 @@ def updateUser(id, request: UserS, db: Session = Depends(get_db)):
     if not user.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"User with the id {id} is not available")
-    user.update(request)
+    user.update(request.dict(exclude_unset=True))
     db.commit()
     return "Updated"
 

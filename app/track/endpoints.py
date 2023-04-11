@@ -15,6 +15,41 @@ router = APIRouter(
 path_type = "/type"
 
 #
+#   Apies for TRACK entity
+#
+
+@router.post('/start/',status_code=status.HTTP_201_CREATED)
+def createTrack(request: TrackS, db: Session = Depends(get_db)):
+    repository = TrackR()
+    return repository.createTrack(request,db)
+
+@router.delete(path_type+'/{id}', status_code=status.HTTP_204_NO_CONTENT)
+def deleteTrack(id: int, db:Session=Depends(get_db)):
+    respository = TrackR()
+    return respository.deleteTrack(id, db)
+
+@router.post('/end/',status_code=status.HTTP_201_CREATED)
+def createEndTrack(user: int, endDate: datetime, db: Session = Depends(get_db)):
+    repository = TrackR()
+    return repository.endPreviousTrack(user,endDate,db)
+
+@router.patch('/{id}',status_code=status.HTTP_202_ACCEPTED)
+def updateTrack(id, request: TrackS, db: Session = Depends(get_db)):
+    repository = TrackR()
+    return repository.updateUser(id,request,db)
+
+@router.get('/{id}', status_code=status.HTTP_200_OK,response_model=TrackS)
+def getTrack(response: Response, id: int, db: Session = Depends(get_db)):
+    repository = TrackR()
+    return repository.getTrack(response,id,db)
+
+@router.get('/all/', status_code=status.HTTP_200_OK,response_model=List[TrackS])
+def getAllTracks(response: Response, userId: Optional[int] = None, db: Session = Depends(get_db)):
+    repository = TrackR()
+    return repository.getAllTracks(response,userId,db)
+
+
+#
 #   Apies for TRACKTYPE entity
 #
 
@@ -37,27 +72,3 @@ def getTrackType(id: int,response: Response, db: Session = Depends(get_db)):
 def getAllTrackTypes(response: Response, db: Session = Depends(get_db)):
     repository = TrackTypeR()
     return repository.getAllTrackTypes(response=response,db=db)
-
-#
-#   Apies for TRACK entity
-#
-
-@router.post('/start/',status_code=status.HTTP_201_CREATED)
-def createTrack(request: TrackS, db: Session = Depends(get_db)):
-    repository = TrackR()
-    return repository.createTrack(request,db)
-
-@router.post('/end/',status_code=status.HTTP_201_CREATED)
-def createEndTrack(user: int, endDate: datetime, db: Session = Depends(get_db)):
-    repository = TrackR()
-    return repository.endPreviousTrack(user,endDate,db)
-
-@router.put('/{id}',status_code=status.HTTP_202_ACCEPTED)
-def updateTrack(id, request: TrackS, db: Session = Depends(get_db)):
-    repository = TrackR()
-    return repository.updateUser(id,request,db)
-
-@router.get('/all/', status_code=status.HTTP_200_OK,response_model=List[TrackS])
-def getAllTracks(response: Response, userId: Optional[int] = None, db: Session = Depends(get_db)):
-    repository = TrackR()
-    return repository.getAllTracks(response,userId,db)
