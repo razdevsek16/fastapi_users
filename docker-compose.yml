@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:11
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "${API_PORT-8000}:${API_PORT-8000}"
+    volumes:
+      - .:/code
+    command: uvicorn app.main:app --host ${API_HOST} --port ${API_PORT} --reload
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    image: redis:6.2.5
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
