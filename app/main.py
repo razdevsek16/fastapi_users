@@ -11,8 +11,9 @@ Base.metadata.create_all(engine)
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",
-    "http://localhost:8000",
+    "http://localhost:3020",
+    "http://localhost:8020",
+    "http://192.168.0.29:3020",
 ]
 
 app.add_middleware(
